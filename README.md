@@ -17,7 +17,7 @@ the scope of existing tame constructions?
 The intended form of a construction is
 
 $$
-\pi\simeq \operatorname{c-Ind}_K^G\rho,
+\pi\simeq \mathrm{c-Ind}_K^G\rho,
 $$
 
 where $K$ is open and compact modulo the center and $\rho$ is a finite-dimensional
