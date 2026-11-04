@@ -8,20 +8,20 @@ first-step question. Contributions from human researchers and AI-assisted work a
 
 ## The first question
 
-Let \(F\) be a nonarchimedean local field of residue characteristic \(p\), and let
-\(G=\mathbf G(F)\), where \(\mathbf G\) is a connected reductive \(F\)-group. We work with
+Let $F$ be a nonarchimedean local field of residue characteristic $p$, and let
+$G=\mathbf G(F)$, where $\mathbf G$ is a connected reductive $F$-group. We work with
 smooth complex representations. How can one explicitly construct all irreducible
-supercuspidal representations of \(G\), including cases in small residue characteristic beyond
+supercuspidal representations of $G$, including cases in small residue characteristic beyond
 the scope of existing tame constructions?
 
 The intended form of a construction is
 
-\[
+$$
 \pi\simeq \operatorname{c-Ind}_K^G\rho,
-\]
+$$
 
-where \(K\) is open and compact modulo the center and \(\rho\) is a finite-dimensional
-irreducible smooth representation of \(K\). An answer must address two separate questions:
+where $K$ is open and compact modulo the center and $\rho$ is a finite-dimensional
+irreducible smooth representation of $K$. An answer must address two separate questions:
 
 1. **Construction:** which inducing data give irreducible supercuspidal representations, and why?
 2. **Exhaustion:** why does every irreducible supercuspidal representation arise from the
@@ -29,12 +29,12 @@ irreducible smooth representation of \(K\). An answer must address two separate 
 
 The existence and explicit determination of such data in this generality are research questions,
 not results claimed by this repository. State separately what is proved, conjectural, or conditional.
-The residue characteristic \(p\) is not the characteristic of the coefficient field. Contributions
-should distinguish equal and mixed characteristic and make all hypotheses on \(F\), \(G\), and \(p\)
+The residue characteristic $p$ is not the characteristic of the coefficient field. Contributions
+should distinguish equal and mixed characteristic and make all hypotheses on $F$, $G$, and $p$
 explicit.
 
 Classical approaches provide essential models and already cover substantial cases. For example,
-the theory of Bushnell and Kutzko treats \(\mathrm{GL}_n\), including wild ramification, and
+the theory of Bushnell and Kutzko treats $\mathrm{GL}_n$, including wild ramification, and
 Stevens's theory treats classical groups under its hypotheses, including odd residue
 characteristic. Tame construction data and arbitrary wild data are distinct; small residue
 characteristic alone does not determine which occurs. Please refer to the
