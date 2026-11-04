@@ -1,0 +1,659 @@
+\documentclass[10pt]{amsart}
+\usepackage[margin=0.95in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,hyperref}
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{lemma}[proposition]{Lemma}
+\newtheorem{theorem}[proposition]{Theorem}
+\newtheorem{corollary}[proposition]{Corollary}
+\newcommand{\Ocal}{\mathcal O}
+\newcommand{\Gcal}{\mathcal G}
+\newcommand{\gfr}{\mathfrak g}
+\newcommand{\C}{\mathbf C}
+\newcommand{\Irr}{\operatorname{Irr}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\val}{\operatorname{val}}
+\title{Congruence data and compact induction in small characteristic}
+\author{}
+\date{Research note, 2 November 2026}
+\begin{document}
+\maketitle
+
+This note gives congruence data that produce supercuspidal representations by compact
+induction for every connected reductive group over every nonarchimedean local field.
+Theorem~\ref{agc-all-groups} imposes no restriction on the residue characteristic or
+the ramification of a splitting field. On a central extension with simply connected
+derived group, elliptic toral functionals give deep congruence characters whose
+intertwining is contained in an open subgroup compact modulo center. A finite
+induction supplies the inducing representations. A smooth central twist then lets
+the entire inducing pair descend to the original group.
+
+The proof identifies group intertwining with transport of the full coadjoint coset,
+using exact equivariant coordinates on unipotent radicals and a fixed depth margin
+for the remaining analytic coordinates. Properness of the action on rationally
+elliptic covectors supplies the required compact subgroup. The earlier sections
+also compute root subgroups with different depths that restore a perfect finite
+commutator pairing. For $\mathrm{Sp}_4$ over every local field of characteristic two,
+we compute the inducing subgroup and all representations containing an explicit
+family of characters, including characters whose leading reductions are not elliptic.
+
+The Heisenberg and Clifford steps follow the architecture of Yu's construction and
+its refinements \cite{Yu,FintzenSchwein,Takaya}. The occurrence statements for this
+construction exhaust the representations containing the specified data. They do not supply
+extraction from an arbitrary supercuspidal representation. The depth margin can
+always be arranged for the constructed data; it cannot be imposed on a character
+already known to occur without a further proof.
+
+Existence of supercuspidal representations for all these groups is already known
+by Kret's finite-group construction \cite{Kret}. The subject here is the specified
+congruence construction and its intertwining calculation. Its outputs do not
+exhaust all supercuspidals: Proposition~\ref{dzo-no-compact-transporter} and
+Corollary~\ref{dzo-z-extensions} give an explicit depth-zero counterexample to
+universal occurrence in this family, even after central extension and twisting.
+
+Theorem~\ref{qtc-finite-equivalence} compares any two supplied compact inducing
+pairs by finitely many matrix equations with an explicit Cartan bound. Thus
+equivalence of successful inducing data is already controlled. For extraction,
+Proposition~\ref{stre-finite-refinement} gives a finite refinement that preserves
+occurrence under an explicit precision hypothesis. The remaining coordinates
+retain the radical of the commutator pairing. Their compatibility with earlier
+stages is not established. Propositions~\ref{mkdo-annular-types} and
+\ref{mkdo-fixed-vertex} also show why increasing the level at a fixed vertex
+cannot serve as a universal extraction procedure.
+
+Proposition~\ref{ofd-multiplicity-saturation} gives the exact formal-degree
+criterion for an occurring representation of an open subgroup compact modulo
+center to induce the prescribed supercuspidal. It also distinguishes an
+irreducible compact induction from a compact induction consisting of several
+copies of one supercuspidal. The latter has a matrix algebra of endomorphisms;
+choosing a primitive idempotent in that algebra does not by itself produce a
+new inducing subgroup.
+
+Theorem~\ref{frc-bounded-decision} makes closure under the coefficient blocks
+a finite decision for every supplied irreducible local model. A radius
+depending on the local subgroup and fiber dimension bounds every possible
+finite block. The procedure either finds inducing data or certifies failure
+of that model. Theorem~\ref{svpe-extraction} gives a positive extraction
+criterion: an occurring type at a full special vertex induces the given
+supercuspidal if its restriction to the intersection with a minimal
+parabolic is irreducible. Neither result asserts that every supercuspidal
+has a local model satisfying its successful alternative.
+
+Theorem~\ref{fel-polynomial-locus} also makes a change of embedding within
+a fixed finite multiplicity space a finite system of polynomial equations.
+Proposition~\ref{fel-empty-locus} shows that this system can have no solution
+even when the representation is already compactly induced. Its proof gives
+an explicit change of local type that succeeds in that example. Thus
+changing the embedding alone does not provide universal extraction.
+
+Theorem~\ref{girg-rank-gap} computes the global complement of the outgoing
+coefficient blocks. Their total rank satisfies $R=n$ or $R\geq2n$ when
+the coefficient projection is nontrivial. Thus the previously considered
+strict-descent interval $n<R<2n$ is empty. The case $R=n$ gives compact
+induction directly. Proposition~\ref{ecbe-endpoints} also extracts an
+inducing pair at either endpoint of the diagonal bounds for every $R$.
+At $R=2n$, Theorem~\ref{rcx-rotation} gives an explicit successful rotation
+when $c=1/2$ and the complement has the original local type. These results
+apply in every residue characteristic and impose no splitting hypothesis.
+Theorems~\ref{toue-extraction} and \ref{toue-self-reversing} remove that
+type hypothesis whenever the active coefficient blocks have two neighbor
+orbits at $R=2n$. They construct equivariant unitary operators directly
+from the blocks. Lemma~\ref{scs-saturation} identifies reducing subspaces
+forced by equality in the rank inequality for the projection equations.
+It yields actual compact induction at $R=2n$ if every range projection
+has full central support in the local range algebra, if every individual
+block has rank at most two, or if the fiber dimension is prime
+(Theorems~\ref{scs-full-central}, \ref{scr-rank-two}, and
+Corollary~\ref{scr-prime-fiber}). In these cases the closure of an original
+fiber is supported on at most $4n$ coordinates. Theorem~\ref{scs-degree-three}
+also handles a single active orbit of degree three.
+Theorem~\ref{cra-extraction} treats every commutative local range algebra,
+with arbitrary multiplicities, by an explicit decomposition into triangles
+or four-cycles. Theorems~\ref{epc-spanning} and \ref{epc-probe-lattice} give
+further criteria for noncommutative algebras acting with multiplicity one.
+They recover central incidence spaces from the images of other range
+projections, allowing finite sums and intersections. This permits arbitrarily
+large individual block ranks. Corollary~\ref{fmd-prime-or-four} also handles
+the spanning condition when the local factors have prime multiplicity or
+multiplicity four. Corollary~\ref{lfr-extraction} completes extraction from
+every boundary model with fiber dimension at most eleven.
+These assertions concern supplied
+coefficient models; they do not produce such models for every supercuspidal
+representation.
+
+Proposition~\ref{god-orbital-moves} gives further changes of local data from
+individual coefficient orbits, without a bound on the total rank $R$.
+Theorem~\ref{god-termination} bounds the number of steps that strictly
+decrease the formal-degree ratio and then the fiber dimension. The bound
+uses only the initial fiber dimension and compact subgroup volumes.
+Corollary~\ref{god-terminal-core} extracts every terminal model with
+$R\leq2n$. Models with larger rank can remain, so this finite descent
+does not yet give universal exhaustion.
+
+Theorem~\ref{wpc-exhaustion} and Corollary~\ref{wpc-actual-data} give an
+exhaustive construction under the single condition $p\nmid|W|$, where $W$
+is the absolute Weyl group. They require no tame splitting hypothesis on
+$G$ over $F$. This consequence of the known exhaustion and equivalence
+theorems uses Yu data over the fields defining the absolute simple factors,
+a compatible central character, and finite Clifford theory. It includes
+wildly ramified restriction of scalars and arbitrary central tori.
+
+\section{The integral obstruction to changing a representative}
+
+Let $\Ocal$ be a discrete valuation ring with uniformizer $\varpi$, fraction field $F$,
+and normalized valuation $\val$. Let $L$ be a finite free $\Ocal$-module, and let
+$R\subseteq L$ be a submodule of rank $s$. Write
+$R^{\mathrm{sat}}=(FR)\cap L$. Choose Smith bases so that $L$ has basis
+$e_1,\ldots,e_l$ and $R$ has basis
+$r_i=\varpi^{a_i}e_i$, where $a_i\geq0$ and $1\leq i\leq s$.
+
+\begin{lemma}\label{lem:smith-correction}
+For $\lambda\in L^\vee$ and an integer $q\geq1$, the coset
+$\lambda+\varpi^qL^\vee$ contains a functional vanishing on $R$ if and only if
+\[
+ \lambda(r_i)\in\varpi^{q+a_i}\Ocal
+ \quad(1\leq i\leq s).
+\]
+Equivalently, $\lambda(R^{\mathrm{sat}})\subseteq\varpi^q\Ocal$.
+If $\delta=\max_i a_i$, the stronger condition
+$\lambda(R)\subseteq\varpi^{q+\delta}\Ocal$ suffices.
+\end{lemma}
+
+\begin{proof}
+Vanishing on $r_i$ is equivalent to vanishing on $e_i$, since $\Ocal$ is a domain.
+A correction in $\varpi^qL^\vee$ can change $\lambda(e_i)$ to zero exactly when
+$\lambda(e_i)\in\varpi^q\Ocal$. The coordinates of the correction on the remaining
+basis vectors can be zero. Since
+$\lambda(r_i)=\varpi^{a_i}\lambda(e_i)$, this proves every assertion.
+\end{proof}
+
+Thus divisibility on the original coroot lattice is insufficient when that lattice
+is not saturated. A bounded denominator gives a sufficient margin, but it does not
+make that margin hold in a prescribed character coset. In equal characteristic $p$,
+the differential of a coroot divisible by $p$ can vanish. Dividing the abstract
+cocharacter by $p$ then changes the actual differential and the group commutator;
+it is not an integral correction of a representative.
+
+\section{A finite refinement using actual root subgroups}
+
+Let $F$ be a nonarchimedean local field with ring of integers $\Ocal$, residue field
+$k$ of cardinality $q$, and uniformizer $\varpi$. Fix an additive character
+$\psi:F\to\C^\times$ whose annihilator of $\Ocal$ is $\Ocal$.
+Let $\Gcal$ be a split connected reductive group scheme over $\Ocal$, with split
+maximal torus $\mathcal T$ and Chevalley root homomorphisms $x_\alpha$.
+Put $G=\Gcal(F)$ and $L=\operatorname{Lie}(\Gcal)(\Ocal)$. Use the decomposition
+\[
+ L=\operatorname{Lie}(\mathcal T)(\Ocal)
+       \oplus\bigoplus_{\alpha\in\Phi}\Ocal E_\alpha,
+ \qquad E_\alpha=dx_\alpha(1).
+\]
+Choose signs so that $[E_\alpha,E_{-\alpha}]=H_\alpha$, where
+$H_\alpha=d\alpha^\vee(1)$. The signs in the alternating pairings below can be
+changed by changing root coordinates.
+
+For an integer $j\geq1$, let
+$G_j=\ker(\Gcal(\Ocal)\to\Gcal(\Ocal/\varpi^j\Ocal))$.
+Choose $\beta\in L^\vee$ vanishing on all root spaces. Define
+\[
+ c_\alpha=\beta(H_\alpha),\qquad
+ \Gamma=\{\alpha\in\Phi:c_\alpha\ne0\},\qquad
+ d_\alpha=\val(c_\alpha)\quad(\alpha\in\Gamma).
+\]
+Then $d_{-\alpha}=d_\alpha$. Set $\delta=\max_{\alpha\in\Gamma}d_\alpha$,
+with $\delta=0$ if $\Gamma$ is empty. Choose an integer $m\geq2\delta+1$, and put
+\[
+ n=2m+1,\qquad H=G_{m+1},\qquad a_\alpha=m-d_\alpha.
+\]
+Since $2(m+1)\geq n$, the square-zero congruence quotient gives a canonical map
+\[
+ \ell:H/G_n\xrightarrow{\sim}
+       \varpi^{m+1}L/\varpi^nL.
+\]
+Define the character $\theta$ of $H$ by
+$\theta(h)=\psi(\varpi^{-n}\beta(\ell(h)))$. This is independent of the lift of
+$\ell(h)$ to $\varpi^{m+1}L$.
+Finally, let $P$ be the subgroup generated by $H$ and
+$x_\alpha(\varpi^{a_\alpha}\Ocal)$ for $\alpha\in\Gamma$.
+
+\begin{proposition}\label{prop:weighted-heisenberg}
+The group $P$ is compact and open, $H$ is normal in $P$, and $\theta$ is
+$P$-invariant. Root coordinates identify its abelian quotient with
+\[
+ V=P/H\simeq\bigoplus_{\alpha\in\Gamma}\Ocal/\varpi^{d_\alpha+1}\Ocal.
+\]
+The commutator pairing $B_\theta$ on $V$ is trivial between nonopposite root
+summands. On a pair of opposite summands it is
+\begin{equation}\label{eq:root-pairing}
+ B_\theta\bigl(x_\alpha(\varpi^{a_\alpha}u),
+                    x_{-\alpha}(\varpi^{a_\alpha}v)\bigr)
+ =\psi\left(\varpi^{-(d_\alpha+1)}
+                   (\varpi^{-d_\alpha}c_\alpha)uv\right).
+\end{equation}
+In particular, this pairing is perfect. There is a unique irreducible smooth
+representation $\omega_\theta$ of $P$ whose restriction to $H$ is
+$\theta$-isotypic, and
+\[
+ \dim\omega_\theta
+   =\prod_{\alpha\in\Gamma\cap\Phi^+}q^{d_\alpha+1}.
+\]
+Let $C$ be the inverse image in $P$ of the sum of the positive-root summands
+of $V$. The character $\theta$ extends to a character $\eta$ of $C$, and
+$\omega_\theta\simeq\operatorname{Ind}_C^P\eta$ for every such extension.
+For every smooth representation $\pi$ of $G$, evaluation gives an isomorphism
+of $P$-representations
+\begin{equation}\label{eq:occurrence}
+ \omega_\theta\otimes
+       \Hom_P(\omega_\theta,\pi)
+       \xrightarrow{\sim}\pi^\theta.
+\end{equation}
+Consequently $\theta$ occurs in $\pi$ if and only if $\omega_\theta$ occurs in $\pi$.
+Moreover,
+\begin{equation}\label{eq:intertwining-inclusion}
+ I_G(\omega_\theta)\subseteq I_G(\theta).
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Put $a=m-\delta\geq1$. Since $2a\geq m+1$, the quotient
+$G_a/G_{m+1}$ is an additive congruence quotient. The images of the indicated
+root subgroups are its independent root submodules, with the indicated lengths.
+This proves the description of $P/H$. It also proves compactness and openness:
+$P$ is a union of finitely many cosets of $H$ in $\Gcal(\Ocal)$.
+The group $H$ is normal in $\Gcal(\Ocal)$.
+
+For a toral functional, the integral adjoint action of a root element satisfies
+\[
+ \beta\circ\operatorname{Ad}(x_\alpha(t))-\beta
+       =\pm t c_\alpha E_{-\alpha}^\vee.
+\]
+Indeed, the only root space that can acquire a toral component under this
+action is the $-\alpha$ root space, and all subsequent terms lie in root spaces.
+Conjugation acts on the square-zero congruence quotient by this integral adjoint
+action. For $t\in\varpi^{a_\alpha}\Ocal$, the change in its pairing with an
+element of $\varpi^{m+1}L$ has valuation at least
+$a_\alpha+d_\alpha+m+1=n$. Thus each root generator preserves $\theta$.
+Invariance under $H$ follows because $\theta$ is a character.
+
+The integral Chevalley commutator formula for nonopposite roots is a product
+of root elements with parameter valuations at least
+$a_\alpha+a_\gamma\geq2m-2\delta\geq m+1$. Each factor belongs to $H$, and
+$\theta$ is trivial on every root subgroup in $H$. Their pairing is therefore
+trivial.
+
+For opposite roots use the root homomorphism from $\mathrm{SL}_2$.
+Write $u'=\varpi^{a_\alpha}u$, $v'=\varpi^{a_\alpha}v$, and $s=u'v'$.
+In $\mathrm{SL}_2$ the commutator is
+\[
+ \begin{pmatrix}1&u'\\0&1\end{pmatrix}
+ \begin{pmatrix}1&0\\v'&1\end{pmatrix}
+ \begin{pmatrix}1&-u'\\0&1\end{pmatrix}
+ \begin{pmatrix}1&0\\-v'&1\end{pmatrix}
+ =
+ \begin{pmatrix}
+  1+s+s^2&-(u')^2v'\\
+  u'(v')^2&1-s
+ \end{pmatrix}.
+\]
+Its lower-diagonal-upper factorization has torus
+$\operatorname{diag}(A,A^{-1})$, with $A=1+s+s^2$, and root parameters
+$u'(v')^2/A$ and $-(u')^2v'/A$. Those root parameters have valuation at least
+$3a_\alpha\geq m+1$, so their images lie in $H$ and have trivial $\theta$-value.
+The remaining factor is $\alpha^\vee(A)$. In its congruence linearization,
+\[
+ \ell(\alpha^\vee(A))=u'v'H_\alpha
+       \pmod{\varpi^{4a_\alpha}L}.
+\]
+Here both the term $s^2$ and the nonlinear terms of the integral cocharacter
+have valuation at least $4a_\alpha$. The bound on $m$ implies
+$4a_\alpha\geq4m-4\delta\geq n$. Applying $\theta$ therefore gives
+$\psi(\varpi^{-n}c_\alpha u'v')$, which is \eqref{eq:root-pairing}.
+Because $\varpi^{-d_\alpha}c_\alpha$ is a unit and the annihilator of
+$\Ocal$ under $\psi$ is $\Ocal$, each opposite-root pairing is perfect.
+
+Let $N=\ker\theta$. Invariance makes $N$ normal in $P$, and $P/N$ is finite.
+The subgroup $H/N$ is central, with faithful character induced by $\theta$.
+Perfection of the commutator pairing makes $H/N$ the whole center of $P/N$.
+The central-character summand of $\C[P/N]$ has dimension $|P/H|$ and center
+$\C$: the coefficient of a noncentral coset must vanish in any central element,
+since some commutator is detected by $\theta$. It is therefore a single matrix
+algebra. This proves uniqueness and the dimension formula.
+
+The positive-root summands form a maximal isotropic subgroup of $V$.
+Consequently $C/N$ is abelian, so its central subgroup $H/N$ has an extension
+of $\theta$ to $C/N$. Inflate an extension to $C$ and call it $\eta$.
+The induced representation $\operatorname{Ind}_C^P\eta$ is
+$\theta$-isotypic on $H$ and has dimension $[P:C]=\sqrt{|P/H|}$.
+Uniqueness and the dimension formula just proved show that it is
+$\omega_\theta$.
+
+The space $\pi^\theta$ is $P$-stable and is a module for that matrix algebra.
+Evaluation proves \eqref{eq:occurrence}, including for an infinite-dimensional
+smooth $\pi$. Finally, a nonzero intertwiner for $\omega_\theta$ restricts to
+$H\cap gHg^{-1}$, where the two representations act by the scalar characters
+$\theta$ and ${}^g\theta$. These characters must agree, proving
+\eqref{eq:intertwining-inclusion}.
+\end{proof}
+
+\section{A characteristic-two example in type $C_2$}
+
+Take $F=k((t))$ of characteristic two, $\Gcal=\mathrm{Sp}_4$ over $k[[t]]$, and
+the diagonal torus with coordinates
+$\operatorname{diag}(z_1,z_2,z_1^{-1},z_2^{-1})$.
+Let $h_i$ be the differential of its $i$th coordinate cocharacter. Choose
+$\beta(h_1)=1$ and $\beta(h_2)=1+t$. The long roots $2e_i$ have coroots $h_i$,
+whereas the short roots $e_1-e_2$ and $e_1+e_2$ have coroots $h_1-h_2$ and
+$h_1+h_2$. Thus
+\[
+ d_\alpha=0\text{ for long roots},\qquad
+ d_\alpha=1\text{ for short roots}.
+\]
+For every $m\geq3$, put $H=G_{m+1}$ and $n=2m+1$. The group $P$ is generated
+by $H$, the short root subgroups at depth $m-1$, and the long root subgroups
+at depth $m$. Proposition~\ref{prop:weighted-heisenberg} gives
+\[
+ P/H\simeq(\Ocal/t^2\Ocal)^4\oplus k^4,
+ \qquad \dim\omega_\theta=q^6.
+\]
+All commutator assertions use the actual group. In particular, nonopposite
+short-root commutators that have a long-root term with coefficient two vanish
+in characteristic two. Mixed short-long commutators are already in $H$.
+For opposite short roots, the possible nonlinear torus error has depth at least
+$4(m-1)\geq2m+1$; for long roots it has depth at least $4m$.
+
+For $k=\mathbf F_2$, the group $P/\ker\theta$ is an extraspecial group of order
+$2^{13}$. Its center is $H/\ker\theta$ of order two, and its quotient by that
+center is the twelve-dimensional $\mathbf F_2$-space $V$. Define a quadratic
+form $Q:V\to\mathbf F_2$ by
+$(-1)^{Q(v)}=\theta(\widetilde v^2)$ for a lift $\widetilde v\in P$.
+Each root element has order two. The positive-root half of $V$ is isotropic
+for the commutator pairing and is generated by these square-one lifts.
+It is therefore a totally singular subspace of dimension six for $Q$.
+Thus $Q$ has Arf invariant zero. The preimage of this half in
+$P/\ker\theta$ is elementary abelian; choose the extending character $\eta$
+with values in $\{1,-1\}$. Its induced representation gives a real model of
+the irreducible Heisenberg representation of dimension $64$. This assertion
+does not include an extension of that representation to a normalizer.
+
+The roots on which the leading reduction of $\beta$ vanishes are precisely the
+short roots. They form a root system of type $D_2$, which is not the root system
+of a proper Levi subgroup of $\mathrm{Sp}_4$. Nevertheless the refinement above
+has a perfect commutator pairing and preserves occurrence. This is a statement
+about this finite step, not an exclusion of possible data with several stages.
+No connectedness assertion about the full coadjoint stabilizer is used. In
+characteristic two the Weyl sign changes act trivially on the toral Lie algebra
+and can give additional stabilizer components.
+
+The same valuation calculation should not be transferred unchanged to mixed
+characteristic. Over $\mathbf Q_2$ with $\varpi=2$, the values $1$ and $1+\varpi=3$
+give short-root values $-2$ and $4$, of valuations one and two. Here the displayed
+general bound is $m\geq5$ and the Heisenberg dimension is $q^7$.
+
+\input{split-hyperspecial-intertwining-section}
+\input{elliptic-congruence-sector-section}
+\input{all-groups-deep-intertwining-section}
+\input{rational-elliptic-properness-section}
+\input{toral-ellipticity-section}
+\input{central-twist-descent-section}
+\input{all-group-construction-section}
+\input{depth-zero-obstruction-section}
+\input{maximal-compact-depth-obstruction-section}
+\input{horospherical-compression-obstruction-section}
+\input{finite-reducing-closure-decision-section}
+\input{finite-embedding-locus-section}
+\input{rank-budget-extraction-section}
+\input{global-incidence-rank-gap-section}
+\input{rotation-complement-extraction-section}
+\input{two-orbit-unitary-extraction-section}
+\input{saturation-central-support-section}
+\input{rank-two-central-refinement-section}
+\input{commuting-range-algebra-extraction-section}
+\input{exclusive-probe-central-refinement-section}
+\input{factor-multiplicity-descent-section}
+\input{low-fiber-rank-boundary-corollary}
+\input{general-orbital-descent-section}
+\input{small-characteristic-transverse-extraction-section}
+\input{rational-cocharacter-levi-section}
+\input{quantitative-transporter-comparison-section}
+\input{occurrence-formal-degree-section}
+\input{special-vertex-parabolic-extraction-section}
+\input{weyl-prime-compact-induction-section}
+
+\section{The remaining extraction problem}
+
+For $G=\mathrm{PGL}_2$ in mixed characteristic with residue characteristic two,
+write $h$ for the class of $\operatorname{diag}(1,0)$ in its integral toral Lie
+algebra. The coroot differential is $2h$. If $\beta(h)=1$, the coroot-lattice
+Smith exponent is $e=\val(2)$. Proposition~\ref{prop:weighted-heisenberg} applies
+with $m\geq2e+1$, giving
+\[
+ P/H\simeq(\Ocal/\varpi^{e+1}\Ocal)^2,
+ \qquad\dim\omega_\theta=q^{e+1}.
+\]
+This repairs the finite pairing by changing the actual root subgroups.
+
+It does not give a generic representative in the original filtration coset.
+Identify the dual of $\mathfrak{pgl}_2(\Ocal)$ with trace-zero matrices by the trace
+pairing, and take $B=\operatorname{diag}(1,-1)$. Every matrix
+$B'\in B+\varpi\mathfrak{sl}_2(\Ocal)$ has unit determinant and eigenvalues
+$\lambda,-\lambda$ of valuation zero over a splitting field. Its coroot value is
+$2\lambda$, of valuation $e$, whereas its depth at the original vertex is zero.
+Thus no such representative satisfies the toral genericity equality at depth
+zero. Scaling the coset shifts the two valuations equally and leaves their gap
+unchanged. The correction margin in Lemma~\ref{lem:smith-correction} cannot be
+discarded.
+
+In equal characteristic two the same coroot differential is zero. Replacing it
+by the formally divided vector $h$ does not change the zero differential of the
+actual root commutator. More generally, for a central homomorphism
+$f:\widetilde G\to G$ and a pulled-back character, one has the exact identity
+\[
+ B_{\theta\circ f}(u,v)=B_\theta(f(u),f(v))
+\]
+whenever the indicated finite commutator quotients are defined. A pulled-back
+pairing cannot acquire directions absent from the actual commutator by a change
+of terminology. Changing filtrations or retaining additional central and
+Clifford data is a further operation that needs its own occurrence argument.
+
+Propositions~\ref{prop:ecs-sp4-sector} and \ref{prop:ecs-inertia} supply compactness,
+the actual inducing data, and exhaustion of the specified characteristic-two
+sectors. Their proof uses the entire character coset and the precision bound
+$m\ge2\delta+1$. An arbitrary occurring minimal-depth character need not satisfy
+that bound. Theorem~\ref{agc-all-groups} removes the group and splitting restrictions
+for a nonempty construction. Its central twist is applied after constructing a
+representation and can change both depth and the frequency of a congruence character.
+It therefore does not assert a correction within the original character coset.
+
+Proposition~\ref{dzo-no-compact-transporter} proves that no choice of the single
+deep linear character in Theorem~\ref{agc-all-groups} can cover the representation
+\eqref{dzo-representation}; Corollary~\ref{dzo-z-extensions} excludes repair by its
+central extensions and smooth twists. Thus universal occurrence in this family
+is false. The depth-zero cuspidal datum already gives the correct compact induction
+for that example. A full classification must allow a larger collection of data,
+including cuspidal representations of finite reductive quotients and further stages
+at positive depth. Extracting such data while preserving occurrence, and proving
+that extraction terminates for every supercuspidal, remain unresolved here.
+
+One sufficient relative step would retain a smaller twisted Levi group $M$,
+a compact inducing representation $\tau$ on $K_M\subset M(F)$, and an
+occurring representation $\lambda$ on a subgroup $K=JK_M\subset G(F)$,
+open and compact modulo $Z(G)(F)$. Here $J$ denotes the additional compact
+subgroup supplied by the step. The essential intertwining calculation would be
+\[
+ I_{G(F)}(\lambda)\subseteq J I_{M(F)}(\tau)J.
+\]
+If the lower compact induction is irreducible, so that
+$I_{M(F)}(\tau)=K_M$, this inclusion confines all intertwining to $K$.
+For irreducible $\lambda$, the compact-induction argument then identifies
+the given representation with $\operatorname{c-Ind}_K^{G(F)}\lambda$.
+Depth-zero exhaustion supplies a terminal case. What is missing is extraction
+of the occurring data and this relative intertwining comparison in small
+characteristic. The existence of a suitable reductive $M$ is itself part
+of that problem; the coordinate calculations above do not establish it.
+
+Proposition~\ref{stre-finite-refinement} supplies a genuine local part of
+extraction: it chooses a character that occurs, then corrects it by an actual
+group element. Lemma~\ref{stre-schur-complement} computes the exact residual
+commutator form, including its quadratic correction. Neither result forces the
+precision hypothesis for an arbitrary input or gives a compatible sequence
+of residual groups and representations. Proposition~\ref{stre-pgl2-closed-orbits}
+shows that geometric closedness of the orbit cannot be imposed on every
+occurring frequency coset in characteristic two.
+
+Proposition~\ref{rcl-levi-characterization} describes rationally
+cocharacter-closed covectors using elliptic covectors on $F$-Levi subgroups.
+The description holds in every characteristic. The Levi subgroup in this
+description need not be the stabilizer of the covector. In
+Proposition~\ref{rcl-non-pseudoreductive-stabilizer}, the stabilizer is
+noncompact modulo center and contains a nontrivial smooth connected
+unipotent normal subgroup. Thus replacing geometric closedness by rational
+cocharacter closure requires a further representation-theoretic descent
+argument; the orbit description does not supply one.
+
+The finite equivalence theorem applies once inducing pairs have been obtained,
+including pairs arising through different central extensions and twists.
+For a unitary supercuspidal $\pi$, Proposition~\ref{ofd-multiplicity-saturation}
+expresses the extraction target as an occurring pair $(J,\tau)$ satisfying
+\[
+ \dim\tau=d_\pi\operatorname{vol}(J/Z).
+\]
+Every occurring pair satisfies the opposite weak inequality. Proving that
+equality occurs somewhere is an existence assertion; it does not follow from
+the inequality or from finite-dimensionality of an endomorphism algebra.
+Proposition~\ref{hco-positive-defect} also tests a geometric compression
+on an actual supercuspidal representation. Removing the maximally descending
+Busemann blocks leaves the nonzero defect
+$QPQ-(QPQ)^2=\tfrac29Q$. A geometric extraction must produce a subspace
+that reduces the coefficient projection, rather than only annihilating its
+extreme matrix blocks.
+
+Theorem~\ref{frc-bounded-decision} bounds the closure search for an arbitrary
+open subgroup compact modulo center. It terminates even when
+$Z(\mathcal A)=0$: in that case it returns a finite certificate of failure
+for the supplied coordinate model. The representation can still have
+compact inducing data in a different model. Theorem~\ref{svpe-extraction}
+proves a positive result under a finite restriction condition on an
+occurring special-vertex type. Neither the existence of such a type for an
+arbitrary input nor a change of model guaranteed to succeed is established.
+
+For a fixed occurring local type, Theorem~\ref{fel-polynomial-locus}
+replaces the search over embeddings by finitely many equations.
+Proposition~\ref{fel-two-points} gives a full multiplicity space whose
+successful locus consists of two points. Proposition~\ref{fel-empty-locus}
+gives another occurring type whose entire locus is empty, although its
+supercuspidal representation has an explicit edge inducing pair. The
+compatibility criterion in Proposition~\ref{fel-compatible-induction}
+explains the distinction: the chosen local type must be a full induction
+from its intersection with an inducing subgroup, not just a constituent
+of that induction. A universal procedure must therefore change local
+types as well as embeddings and prove that a successful type is reached.
+
+The global complement identity in Theorem~\ref{girg-rank-gap} shows that
+$n<R<2n$ is impossible, and every model with $R<2n$ already extracts.
+Both endpoints of the diagonal bounds give finite coordinate blocks by
+Proposition~\ref{ecbe-endpoints}. At $R=2n$, a reducible complement gives
+a smaller occurring type. Theorem~\ref{rcx-rotation} instead changes the
+embedding explicitly when $c=1/2$ and the complement is isomorphic to the
+original type. The rank of the coefficient blocks after a general change
+of type is not controlled by these statements. At the same rank boundary,
+Theorems~\ref{toue-extraction} and \ref{toue-self-reversing} handle every
+model with two active neighbor orbits. The equality argument in
+Lemma~\ref{scs-saturation} gives further extractions within the original
+coefficient model. Theorems~\ref{scs-full-central}, \ref{scs-degree-three},
+and \ref{scr-rank-two}, together with Corollary~\ref{scr-prime-fiber},
+handle full central support, degree three, individual block ranks at most
+two, and prime fiber dimensions. Theorem~\ref{cra-extraction} handles every
+commutative local range algebra. Theorem~\ref{epc-spanning} also treats
+noncommutative algebras acting with multiplicity one under the incidence
+spanning condition \eqref{epc-one-factor-spanning}. Consequently an
+uncovered boundary model has a single
+orbit preserved by reversal, degree at least four, individual block rank
+at least three, and composite fiber dimension at least twelve, by
+Corollary~\ref{lfr-extraction}. Its local range algebra is noncommutative and
+has more than one central summand, some of which are omitted by an active
+range projection. In multiplicity one it also fails the more general
+recovery condition of Theorem~\ref{epc-probe-lattice}. Under the spanning
+condition, Corollary~\ref{fmd-prime-or-four} further excludes prime
+multiplicities and multiplicity four. These restrictions do not exclude
+every remaining local algebra.
+
+The individual-orbit moves of Proposition~\ref{god-orbital-moves} are
+defined for every total rank. Their strict lexicographic descent terminates
+within the explicit bound of Theorem~\ref{god-termination}. A terminal
+model with $R\leq2n$ gives compact induction, but a terminal model with
+$R>2n$ is not excluded. Corollary~\ref{god-minimum-pair} proves the same
+necessary rank inequality for a pair minimizing the ratio and then the
+fiber dimension. The finite descent is not shown to attain that global
+minimum or to produce an inducing pair for every representation.
+
+When $p\nmid|W|$, Theorem~\ref{wpc-exhaustion} proves exhaustion without
+assuming tame splitting over $F$, and Corollary~\ref{wpc-actual-data}
+specifies the inducing data. Its proof uses the full-pair conjugacy theorem
+for Yu data to control the finite central-isogeny quotient. At primes
+dividing $|W|$, neither exhaustion on the absolute factors nor this
+conjugacy mechanism is supplied by that argument.
+
+The unresolved assertion is universal extraction of such a pair. Even the
+underlying compact-induction statement remains Conjecture~1.1 in
+\cite{JohnsonWeissman}; that work proves a geometric extraction theorem in
+relative rank one and formulates higher-rank conjectures. The local results
+here do not establish unrestricted higher-rank extraction or classification.
+
+\begin{thebibliography}{99}
+\bibitem{Yu}
+J.-K. Yu, \emph{Construction of tame supercuspidal representations},
+J. Amer. Math. Soc. \textbf{14} (2001), 579--622.
+\bibitem{FintzenSchwein}
+J. Fintzen and D. Schwein, \emph{Construction of tame supercuspidal representations
+in arbitrary residue characteristic}, arXiv:2501.18553,
+\url{https://arxiv.org/abs/2501.18553}.
+\bibitem{Takaya}
+Y. Takaya, \emph{Characteristic-free approaches around Yu's construction},
+arXiv:2605.03638v2, \url{https://arxiv.org/abs/2605.03638}.
+\bibitem{HR}
+T. J. Haines and S. Rostami, \emph{The Satake isomorphism for special maximal
+parahoric Hecke algebras}, Represent. Theory \textbf{14} (2010), 264--284,
+\url{https://arxiv.org/abs/0907.4506}.
+\bibitem{CF}
+B. Conrad, lectures, and T. Feng, notes, \emph{Reductive groups over fields},
+version of 5 December 2020,
+\url{https://math.stanford.edu/~conrad/249BW16Page/handouts/AMSalggroups2.pdf}.
+\bibitem{Cotner}
+S. Cotner, \emph{Exercises for Arizona Winter School 2025},
+\url{https://public.websites.umich.edu/~stcotner/Expository/AWS_2025.pdf}.
+\bibitem{KP}
+T. Kaletha and G. Prasad, \emph{Bruhat--Tits theory---a new approach},
+New Mathematical Monographs \textbf{44}, Cambridge University Press, 2023.
+\bibitem{Kret}
+A. Kret, \emph{Existence of cuspidal representations of $p$-adic reductive groups},
+arXiv:1205.2771, \url{https://arxiv.org/abs/1205.2771}.
+\bibitem{MP96}
+A. Moy and G. Prasad, \emph{Jacquet functors and unrefined minimal $K$-types},
+Comment. Math. Helv. \textbf{71} (1996), 98--121,
+\url{https://doi.org/10.1007/BF02566411}.
+\bibitem{FintzenTypes}
+J. Fintzen, \emph{Types for tame $p$-adic groups},
+Ann. of Math. (2) \textbf{193} (2021), 303--346,
+\url{https://doi.org/10.4007/annals.2021.193.1.4}.
+\bibitem{FintzenTori}
+J. Fintzen, \emph{Tame tori in $p$-adic groups and good semisimple elements},
+Int. Math. Res. Not. IMRN 2021, no. 19, 14882--14904,
+\url{https://doi.org/10.1093/imrn/rnz234}.
+\bibitem{HakimMurnaghan}
+J. Hakim and F. Murnaghan, \emph{Distinguished tame supercuspidal representations},
+Int. Math. Res. Pap. IMRP 2008, rpn005,
+\url{https://doi.org/10.1093/imrp/rpn005}.
+\bibitem{KalethaRegular}
+T. Kaletha, \emph{Regular supercuspidal representations},
+J. Amer. Math. Soc. \textbf{32} (2019), 1071--1170,
+\url{https://doi.org/10.1090/jams/925}.
+\bibitem{JohnsonWeissman}
+S. Johnson and M. H. Weissman, \emph{Types and collapse for cuspidal
+representations of groups acting on trees}, arXiv:2607.27590,
+\url{https://arxiv.org/abs/2607.27590}.
+\bibitem{BHMR}
+M. Bate, S. Herpel, B. Martin, and G. R\"ohrle,
+\emph{Cocharacter-closure and the rational Hilbert--Mumford Theorem},
+Math. Z. \textbf{287} (2017), 39--72,
+\url{https://doi.org/10.1007/s00209-016-1816-5}.
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,1035 @@
+\documentclass[10pt,letterpaper]{amsart}
+\usepackage[margin=0.9in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,microtype,amsmath,amssymb,mathtools}
+\usepackage[shortlabels]{enumitem}
+\usepackage[hidelinks]{hyperref}
+\numberwithin{equation}{section}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\cInd}{\operatorname{c\!-\!Ind}}
+\newcommand{\End}{\operatorname{End}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Irr}{\operatorname{Irr}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\C}{\mathbf C}
+\setlist[enumerate,1]{label=(\roman*),leftmargin=*}
+\setcounter{tocdepth}{1}
+\title{Finite algebra data for supercuspidal representations}
+\date{1 November 2026}
+\hypersetup{pdftitle={Finite algebra data for supercuspidal representations},
+ pdfsubject={Jacquet nilpotence, finite matrix parameters, and certified termination}}
+\begin{document}
+\raggedbottom
+\begin{abstract}
+We give finite algebra data for irreducible smooth complex supercuspidal
+representations of a connected reductive group over a nonarchimedean local field.
+At a fixed compact open level and central character, nilpotence relations for
+positive Cartan operators define finite-dimensional semisimple Hecke quotients.
+A finite boundary calculation determines their multiplication tables. Their simple
+modules reconstruct the supercuspidal representations without an additional choice
+of an irreducible quotient. A rational certificate for the classical finiteness of
+Hecke algebras over their centers gives a terminating search for a uniform stopping
+bound. We state the parameters as finite matrices, give their equivalence relation,
+and describe the associated group representation by generators and relations.
+The construction has no restriction on residue characteristic or splitting of the
+group. Algorithmic statements require specified effective local group operations and
+exact coefficient arithmetic. The construction generally gives a quotient of a
+compact induction; in the sector with nilpotence exponent one it gives a single
+irreducible compact induction from a vertex stabilizer.
+\end{abstract}
+\maketitle
+\tableofcontents
+
+\section{The result and the data}
+\label{sec:introduction}
+
+Let $F$ be a nonarchimedean local field, let $\mathbf G$ be a connected reductive
+$F$-group, and put $G=\mathbf G(F)$ and $Z=Z(G)$. All representations in this
+article are smooth complex representations. We fix a decreasing sequence
+$(D_e)_{e\ge0}$ of compact open subgroups at one special vertex, as specified
+in Section~\ref{sec:cartan-operators}. The sequence is a neighborhood basis
+of the identity. The central character will always mean an actual character
+$\omega:Z\to\C^\times$, acting by scalars, rather than a generalized central
+character.
+
+The result gives data for the supercuspidals with $D_e$-fixed vectors and
+central character $\omega$. The data are simple modules of one finite algebra
+$Q^{\mathrm{sc}}_{e,\omega}$. This algebra is obtained from double-coset
+convolution by imposing powers of explicitly chosen positive Cartan operators.
+Its construction does not require a list of supercuspidal representations.
+
+\begin{theorem}\label{thm:main}
+For each $e$ and each smooth $\omega$ trivial on $Z\cap D_e$, the construction
+in Sections~\ref{sec:cartan-operators}--\ref{sec:certified-level-termination}
+gives a finite-dimensional semisimple complex algebra
+$Q^{\mathrm{sc}}_{e,\omega}$ with the following properties.
+\begin{enumerate}
+\item Each simple module $L$ determines an irreducible supercuspidal
+representation $\Pi_{e,\omega}(L)$ with
+$\Pi_{e,\omega}(L)^{D_e}\simeq L$ and central character $\omega$.
+\item Every irreducible supercuspidal representation with these fixed vectors
+and central character occurs, and two simple modules give isomorphic group
+representations exactly when they are isomorphic.
+\item Under the effective input conventions of
+Section~\ref{sec:effective-input}, there is a terminating procedure to
+compute the multiplication table of $Q^{\mathrm{sc}}_{e,\omega}$ and its
+simple modules.
+\end{enumerate}
+There is no restriction on the residue characteristic or on the splitting
+field of $\mathbf G$.
+\end{theorem}
+
+Here is the corresponding matrix form of the data. Suppose the computed
+algebra is nonzero, and choose a basis $q_1=1,q_2,\ldots,q_n$. Write
+$q_iq_j=\sum_k c_{ij}^kq_k$. A datum at $(e,\omega)$ is a positive integer
+$d$ and matrices $X_1,\ldots,X_n\in M_d(\C)$ satisfying
+\begin{equation}\label{eq:intro-matrix-data}
+ X_1=I_d,\qquad X_iX_j=\sum_k c_{ij}^kX_k,\qquad
+ \operatorname{span}_{\C}\{X_1,\ldots,X_n\}=M_d(\C).
+\end{equation}
+The last condition is a finite rank test and is equivalent to simplicity
+of the module. Two such data are identified by simultaneous conjugation.
+If the algebra is zero, there are no data at that level and central
+character. Section~\ref{sec:matrix-data} gives the reconstruction explicitly
+as a space of symbols with specified relations and group action.
+
+To parametrize all supercuspidals without repetitions across levels, retain
+only data for which averaging over $D_{e-1}$ is zero when $e>0$.
+Equivalently, $e$ must be the least level with nonzero fixed vectors.
+The central character, least level, and simultaneous-conjugacy class of the
+matrices are then complete parameters. One can replace the matrix class by
+a primitive central idempotent of $Q^{\mathrm{sc}}_{e,\omega}$.
+
+The proof has three parts. Positive Cartan nilpotence produces a finite
+quotient and forces Jacquet modules to vanish. Projectivity of supercuspidals
+with fixed central character then makes this quotient semisimple and makes
+reconstruction irreducible. Finally, a finite rational certificate for
+finiteness over the center supplies an effective stopping bound. The
+finiteness theorem used in the last step is classical in characteristic-zero
+coefficients; we use the formulation in \cite[Theorem~1.1]{DHKM}.
+
+These are finite algebra parameters. The realization is an explicitly
+specified quotient of a compact induction from $ZD_e$. In
+Section~\ref{sec:exponent-one}, nilpotence exponent one yields an irreducible
+compact induction from a vertex stabilizer. The article does not assert
+that every parameter can be converted to a compact inducing pair.
+
+\section{Cartan operators and averaging}
+\label{sec:cartan-operators}
+
+Choose a maximal $F$-split torus $S$ and a special vertex $x$ in its reduced
+apartment. Let $K$ be the full stabilizer of $x$ in $G$. Thus $Z\subseteq K$
+and $K/Z$ is compact. Let $M=C_{\mathbf G}(S)(F)$ be the minimal Levi, and
+choose simple relative roots $\alpha_1,\ldots,\alpha_\ell$ and the
+corresponding positive system. For any standard parabolic $P=LN$,
+write $\overline P=L\overline N$ for its opposite with the same Levi.
+
+We use the standard compact open subgroups at $x$. They can be chosen as a
+decreasing neighborhood basis $D_e$, normal in $K$, with simultaneous
+Iwahori decompositions for all these parabolics. The required facts are
+\cite[Section~I.2, Proposition~7 and Corollaries~8--9]{SS}; a formulation
+including the full reduced-building stabilizer is
+\cite[Theorem~3.11(a)--(d)]{Solleveld}. We record the precise properties
+used below.
+
+\begin{lemma}\label{lem:group-input}
+For every $D=D_e$ and every standard parabolic $P=LN$, multiplication gives
+an Iwahori decomposition
+\[
+ D=(D\cap N)(D\cap L)(D\cap\overline N).
+\]
+The subgroup $D\cap M$ is normal in $M$. An element $a\in M$ whose
+translation is zero on the roots of $L$ normalizes $D\cap L$. If its
+coordinates contract the positive root groups in $N$, then
+\[
+ a(D\cap N)a^{-1}\subseteq D\cap N,\qquad
+ a^{-1}(D\cap\overline N)a\subseteq D\cap\overline N.
+\]
+When all these contraction coordinates are strictly positive, the groups
+$a^{-n}(D\cap N)a^n$ increase to $N$.
+\end{lemma}
+
+\begin{proof}
+The cited subgroup construction gives normality and the Iwahori
+factorizations. In the notation of \cite[Section~I.2]{SS}, the minimal-Levi
+intersection is the good-filtration subgroup $H_{e+}$, normal in
+$N_G(S)$, hence normal in $M$.
+Conjugation by $M$ shifts the relative root filtrations by its translation
+coordinates. Zero coordinates leave the Levi filtrations unchanged;
+positive coordinates give the two inclusions. On every root of $N$, strict
+positivity makes the filtration index tend to $-\infty$ after conjugation
+by $a^{-n}$. The ordered root-group decomposition of $N$ then proves the
+exhaustion assertion. These statements use valued root groups, including
+multipliable roots, and do not require a split group or a tame extension.
+\end{proof}
+
+Write $h:M\to\mathbf R^\ell$ for the simple-root contraction coordinates.
+Our sign convention is that $h_i(a)>0$ contracts the corresponding positive
+root group. The image $\Lambda=h(M)$ is a lattice, and
+$\ker h=M\cap K$. Indeed, $M$ acts on the reduced apartment by translations;
+its full translation lattice is commensurable with the image of $X_*(S)$
+under evaluation at a uniformizer. The central translation subspace is
+spanned by a sublattice, so quotienting it gives a lattice in the reduced
+apartment. The simple-root forms are rational on this lattice and give
+coordinates on the apartment; see \cite[Lemma~3.3(b)]{Solleveld} and its
+building construction.
+Put $M^+=h^{-1}(\mathbf R_{\ge0}^\ell)$. Iwasawa and Cartan decomposition give
+\begin{equation}\label{eq:group-decompositions}
+ G=PK\quad\text{for every standard }P,\qquad G=KM^+K.
+\end{equation}
+One may use \cite[Theorems~3.13--3.14]{Solleveld} and pass from the extended
+stabilizer to $K$; the central translation directions disappear in the
+reduced apartment.
+
+Fix $D=D_e$ and a smooth $\omega$ trivial on $Z\cap D$. Let
+$\mathcal H_\omega$ be the convolution algebra of locally constant functions
+on $G$, compactly supported modulo $Z$, satisfying
+$f(zg)=\omega(z)^{-1}f(g)$. Convolution is integration over $G/Z$.
+Let $\epsilon$ be the normalized averaging idempotent on $ZD$ with this
+central character. It acts as the usual $D$-average $e_D$ on representations
+with central character $\omega$. Put
+\[
+ \mathcal A=\epsilon\mathcal H_\omega\epsilon,
+ \qquad [g]=\epsilon\delta_g\epsilon\quad(g\in G),
+\]
+where $\delta_g$ denotes translation as a convolution multiplier. Thus
+$[g]$ acts on $V^D$ as $e_D\pi(g)|_{V^D}$.
+
+\begin{lemma}\label{lem:positive-operators}
+For $a,b\in M^+$ and $k_1,k_2\in K$,
+\begin{equation}\label{eq:nilpotent-hecke-monoid}
+ [a][b]=[ab],\qquad [k_1ak_2]=[k_1][a][k_2].
+\end{equation}
+If $a$ strictly contracts the radical $N$ of a standard parabolic $LN$
+and normalizes $D\cap L$, then, for $v\in V^D$,
+\begin{equation}\label{eq:averaging-formula}
+ e_D\pi(a^n)v
+ =e_{D\cap N}\pi(a^n)v
+ =\pi(a^n)e_{a^{-n}(D\cap N)a^n}v\quad(n\ge1).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Set $N_D=D\cap N$, $L_D=D\cap L$, and $\overline N_D=D\cap\overline N$.
+The Iwahori decomposition gives
+$e_D=e_{N_D}e_{L_D}e_{\overline N_D}$. Indeed, $N_DL_D$ is a compact
+subgroup and $D=(N_DL_D)\overline N_D$. The pushforward of normalized Haar
+measure under this product is normalized Haar measure on $D$: the first
+factor acts transitively on $D/\overline N_D$. Apply the same argument to
+$N_DL_D$ to obtain the displayed factorization.
+
+The vector $\pi(a^n)v$ is fixed by $L_D$ and $\overline N_D$, by
+Lemma~\ref{lem:group-input}. This proves the first equality in
+\eqref{eq:averaging-formula}; moving the average across $\pi(a^n)$ proves
+the second. Apply the same calculation to the minimal parabolic, allowing
+zero contraction coordinates. Since $aN_Da^{-1}\subseteq N_D\subseteq D$,
+\[
+ e_D\pi(a)e_D\pi(b)v
+ =e_D\pi(a)e_{N_D}\pi(b)v
+ =e_De_{aN_Da^{-1}}\pi(ab)v
+ =e_D\pi(ab)v.
+\]
+This holds in every smooth representation, hence in the faithful regular
+Hecke action. It proves the first identity of
+\eqref{eq:nilpotent-hecke-monoid}, without requiring $a$ and $b$ to commute.
+Normality of $D$ in $K$ proves the second.
+\end{proof}
+
+Choose nonzero Hilbert generators $\gamma_1,\ldots,\gamma_t$ for the monoid
+$\Lambda\cap\mathbf R_{\ge0}^\ell$, and choose $b_j\in M^+$ with
+$h(b_j)=\gamma_j$. This is a finitely generated monoid because the cone is
+rational polyhedral. Every $a\in M^+$ has an ordered factorization
+\begin{equation}\label{eq:nilpotent-hecke-cartan}
+ a=m_0b_1^{n_1}\cdots b_t^{n_t},\qquad m_0\in M\cap K,\quad n_j\ge0.
+\end{equation}
+To obtain it, express $h(a)$ in the Hilbert generators and take the ordered
+product; the remaining factor lies in $\ker h$. For $N\ge1$ put
+\begin{equation}\label{eq:quotient-definition}
+ T_j=[b_j],\qquad I_N=\sum_j\mathcal A T_j^N\mathcal A,\qquad
+ Q_N=\mathcal A/I_N.
+\end{equation}
+In relative semisimple rank zero there are no $T_j$, and $Q_N=\mathcal A$.
+The quotient is allowed to be zero.
+
+\section{A finite calculation of the quotient}
+\label{sec:finite-quotient}
+
+
+The algebra $\mathcal A$ has at most one basis vector supported on each
+$ZD$ double coset. Some cosets may support no vector because of the central
+character; they are omitted. Each nonzero $[g]$ is a scalar multiple of the
+corresponding basis vector. Equations
+\eqref{eq:nilpotent-hecke-monoid} and \eqref{eq:nilpotent-hecke-cartan} show
+that $\mathcal A$ is generated by the finite collection
+\[
+ \mathcal S=\{[k]:k\in K/(ZD)\}\cup\{T_j:1\le j\le t\}.
+\]
+Choose representatives throughout and discard zero elements. Scalar
+central factors in products are evaluated using $\omega$.
+
+Let $C_N$ be the finite set of nonzero double-coset basis vectors supported
+in
+\begin{equation}\label{eq:nilpotent-hecke-box}
+ \bigcup_{0\le n_j<N} K b_1^{n_1}\cdots b_t^{n_t}K.
+\end{equation}
+Write $V_N$ for their span, $U_N$ for the span of all the omitted basis
+vectors, and $p_N:\mathcal A\to V_N$ for the basis projection. Thus
+$\mathcal A=V_N\oplus U_N$ as vector spaces. Cartan factorization gives
+$U_N\subseteq I_N$. A power $T_j^N$ can nevertheless have retained support
+if $N\gamma_j$ has another expression using the Hilbert basis. Accordingly,
+\begin{equation}\label{eq:nilpotent-hecke-omitted-ideal}
+ I_N=\text{the two-sided ideal generated by }U_N
+                       \text{ and }T_1^N,\ldots,T_t^N.
+\end{equation}
+In particular $Q_N$ is finite-dimensional and
+\begin{equation}\label{eq:nilpotent-hecke-dimension-bound}
+ \dim Q_N\le [K:ZD]^2N^t.
+\end{equation}
+
+The following finite procedure computes the relations among the retained
+basis vectors. It does not assume that truncation of convolution is
+associative. Let $\mathcal C_N$ be the support set in
+\eqref{eq:nilpotent-hecke-box}. For each $s\in\mathcal S$, only finitely
+many omitted double cosets meet
+\[
+ \operatorname{supp}(s)^{-1}\mathcal C_N
+ \ \cup\ \mathcal C_N\operatorname{supp}(s)^{-1}.
+\]
+Both sets are compact modulo $Z$. Compute $p_N(su)$ and $p_N(us)$ for
+the omitted basis vectors in these finite sets. Let $R_0\subseteq V_N$
+be the span of these boundary vectors together with
+$p_N(T_1^N),\ldots,p_N(T_t^N)$. Starting from $R_0$, repeatedly adjoin
+\[
+ p_N(sR_j)\quad\text{and}\quad p_N(R_js),\qquad s\in\mathcal S.
+\]
+After at most $\dim V_N$ strict increases, the sequence stabilizes at a
+subspace $R_N$.
+
+\begin{lemma}\label{lem:nilpotent-hecke-boundary-closure}
+The preceding construction satisfies
+\[
+ I_N=U_N\oplus R_N,\qquad Q_N=V_N/R_N.
+\]
+Multiplication in $Q_N$ is induced by $v,w\mapsto p_N(vw)$.
+Thus this finite computation retains every relation contributed by double
+cosets outside the Cartan box.
+\end{lemma}
+
+\begin{proof}
+For an omitted basis vector $u$, the coefficient of a retained coset in
+$su$ can be nonzero only if its support meets
+$\operatorname{supp}(s)^{-1}\mathcal C_N$. The right-product assertion is
+the analogous support inclusion. Hence every product of an omitted basis
+vector with a generator belongs to $U_N+R_0$. By construction, multiplication
+of $R_N$ by any generator, on either side, belongs to $U_N+R_N$.
+Since $\mathcal S$ generates $\mathcal A$, the space $U_N+R_N$ is a
+two-sided ideal containing $U_N$ and every $T_j^N$. Equation
+\eqref{eq:nilpotent-hecke-omitted-ideal} implies $I_N\subseteq U_N+R_N$.
+
+Conversely $U_N\subseteq I_N$. If $u\in U_N$ then $su,us\in I_N$,
+and subtracting their omitted-basis components shows that
+$p_N(su),p_N(us)\in I_N$. Also $p_N(T_j^N)\in I_N$ because its omitted
+component belongs to $U_N\subseteq I_N$. This proves $R_0\subseteq I_N$.
+The same argument at every closure step gives $R_N\subseteq I_N$.
+The sum is direct because $R_N\subseteq V_N$. The asserted multiplication
+now follows from the quotient of the associative algebra $\mathcal A$.
+\end{proof}
+
+This is an effective calculation under the usual input assumptions of
+effective local group arithmetic: finite double-coset decompositions of
+compact sets, multiplication in their finite quotients, and evaluation of
+the central character. All boundary products are products of explicitly
+given compact sets. Their double-coset lists are finite, and the final
+closure is linear algebra with the displayed dimension bound. An abstract
+existence theorem for a uniform admissibility bound is not needed.
+
+
+\section{Reconstruction and supercuspidality}
+\label{sec:reconstruction}
+
+
+For a left $Q_N$-module $L$, form the smooth representation
+\[
+ \mathcal V(L)=\mathcal H_\omega\epsilon\otimes_{\mathcal A}L.
+\]
+It is generated by its $D$-fixed vectors, and the unit identity gives
+$\mathcal V(L)^D=L$. In general such induction can have a nonzero
+subrepresentation with no $D$-fixed vectors. The next argument rules this
+out in the present cuspidal situation.
+
+For a parabolic $P=LN$, the unnormalized Jacquet module is the quotient
+of $V$ by the span of $\pi(n)v-v$, for $n\in N$ and $v\in V$.
+For irreducible smooth complex representations, vanishing of these
+quotients for every proper $P$ is equivalent to supercuspidality.
+
+\begin{lemma}\label{lem:nilpotent-hecke-cuspidality}
+For every $Q_N$-module $L$, all proper Jacquet modules of $\mathcal V(L)$
+vanish.
+\end{lemma}
+
+\begin{proof}
+For each $j$, let $P_j=M_jN_j$ be the standard parabolic whose Levi roots
+vanish on $\gamma_j$, and put $N_{j,0}=D\cap N_j$. The element $b_j$
+normalizes $D\cap M_j$: it shifts none of the root filtrations in this
+Levi, and $D\cap M$ is normal in $M$. It strictly contracts $N_j$ and strictly
+expands its opposite radical. Thus Lemma~\ref{lem:positive-operators} gives, for $v\in\mathcal V(L)^D$,
+\[
+ T_j^Nv=e_D\pi(b_j^N)v
+       =\pi(b_j^N)e_{b_j^{-N}N_{j,0}b_j^N}v.
+\]
+The left side is zero by the definition of $Q_N$. Hence the image of $v$
+in the $N_j$-coinvariants is zero. Iwasawa decomposition $G=P_jK$ and
+normality of $D$ in $K$ imply that these images generate the entire Jacquet
+module: $\mathcal V(L)$ is generated by its $D$-fixed vectors, and $K$
+preserves that space. Thus the Jacquet module is zero. The Hilbert basis
+contains the primitive lattice generator on every extreme ray: a point
+on such a ray can only be decomposed as a sum of points on the same ray.
+The parabolics $P_j$ therefore include every maximal standard parabolic.
+Conjugation and transitivity of Jacquet functors give the assertion for
+every proper parabolic. In relative rank zero there are no proper
+parabolics and the assertion is immediate.
+\end{proof}
+
+\begin{lemma}\label{lem:projectivity}
+An irreducible supercuspidal representation is projective in the category
+of smooth representations with its actual central character fixed.
+\end{lemma}
+
+\begin{proof}
+We recall the coefficient proof of \cite[Theorem~5.4.1]{Casselman}.
+First suppose the central character is unitary. A supercuspidal is
+unitarizable: integrate the squared absolute value of a nonzero matrix
+coefficient over $G/Z$ to obtain a positive invariant form. The integral
+is finite because supercuspidal matrix coefficients have compact support
+modulo $Z$. For a unit vector $v$, with the inner product linear in its first argument,
+Schur orthogonality gives the idempotent
+$f(g)=d_\pi\langle\pi(g^{-1})v,v\rangle$ in $\mathcal H_\omega$, where
+$d_\pi$ is the formal degree. Its left ideal $\mathcal H_\omega f$ is
+isomorphic to the representation. Consequently,
+\[
+ \Hom_{\mathcal H_\omega}(\mathcal H_\omega f,V)\simeq fV.
+\]
+Multiplication by an idempotent is an exact functor, so this module is
+projective. For general $\omega$, twist by a positive unramified character
+whose restriction to $Z$ is $|\omega|^{-1}$. Such an extension exists on
+the real character spaces of the central valuation lattices; see
+\cite[Lemma~5.2.5]{Casselman}. Twisting
+is an exact equivalence and transfers projectivity back. This is the
+usual fixed-central-character projectivity argument; it uses no
+compact-induction assertion.
+\end{proof}
+
+\begin{theorem}\label{thm:nilpotent-hecke-classification}
+The algebra $Q_N$ is finite-dimensional and semisimple. Its simple modules
+are in bijection with the irreducible supercuspidal representations $\pi$
+having central character $\omega$, nonzero $D$-fixed vectors, and
+\[
+ (e_D\pi(b_j)|_{\pi^D})^N=0\qquad(1\le j\le t).
+\]
+The two maps are $L\mapsto\mathcal V(L)$ and $\pi\mapsto\pi^D$.
+Every irreducible supercuspidal with central character $\omega$ and
+$\pi^D\ne0$ occurs for some $N$, and one may take $N=\dim\pi^D$.
+\end{theorem}
+
+\begin{proof}
+First take $L=Q_N$ with its regular left action. The representation
+$\mathcal V(Q_N)$ is generated by the finite-dimensional space $Q_N$
+and is cuspidal by the lemma. Every nonzero finitely generated smooth
+representation has an irreducible quotient: a maximal proper submodule
+exists because the union of a chain of proper submodules cannot contain
+a fixed finite generating set. Any irreducible quotient of
+$\mathcal V(Q_N)$ is supercuspidal, by exactness of Jacquet functors.
+Projectivity splits off that quotient.
+
+The complement is still generated by its $D$-fixed vectors, because it is
+the image of a $G$-equivariant projection of a $D$-generated representation.
+Every nonzero quotient of a $D$-generated representation has nonzero
+$D$-fixed vectors. Thus each splitting strictly decreases the dimension
+of the remaining $D$-fixed space. After at most $\dim Q_N$ splittings,
+the complement is zero. This proves that $\mathcal V(Q_N)$ is a finite
+direct sum of irreducible supercuspidals.
+
+For an irreducible smooth $\pi$ with $\pi^D\ne0$, its $D$-fixed space is
+a simple $\mathcal A$-module. Indeed, a nonzero $\mathcal A$-submodule
+generates $\pi$ under $G$, and averaging that generated space by $e_D$
+recovers exactly the original submodule. Taking $D$-fixed vectors in the
+preceding direct sum therefore makes the regular module $Q_N$ a direct
+sum of simple $Q_N$-modules. Hence $Q_N$ is semisimple.
+
+For a simple $Q_N$-module $L$, the same splitting argument applied to
+$\mathcal V(L)$ gives a finite supercuspidal direct sum. Its $D$-fixed
+space is the simple module $L$, so the sum has exactly one irreducible
+summand, with multiplicity one. Conversely, if $\pi$ satisfies the
+displayed nilpotence conditions, its fixed space is a simple $Q_N$-module.
+The natural nonzero map $\mathcal V(\pi^D)\to\pi$ is then an isomorphism.
+
+Finally, for a supercuspidal $\pi$ the Jacquet averaging argument makes
+each $T_j$ locally nilpotent on $\pi^D$: the increasing compact groups
+$b_j^{-n}N_{j,0}b_j^n$ exhaust $N_j$, and a vector with zero image in
+the Jacquet module is killed by averaging over a sufficiently large one
+of these groups. This space is finite-dimensional
+by admissibility. A nilpotent operator on a space of dimension $d$ has
+$d$th power zero, proving the last assertion.
+\end{proof}
+
+The index $N$ bounds nilpotence exponents, not the dimension of a simple
+module. A simple $Q_N$-module may have dimension larger than $N$.
+The inclusions $I_{N+1}\subseteq I_N$ give surjections $Q_{N+1}\to Q_N$,
+and the union of their simple spectra gives exactly the supercuspidal
+representations with these fixed $D$ and $\omega$. The construction does
+not by itself provide an effective stabilization index for this sequence.
+Section~\ref{sec:certified-level-termination} supplies such an index by
+a separate finite certificate for the finiteness theorem for Hecke algebras.
+
+
+\section{A certified stopping bound}
+\label{sec:certified-level-termination}
+
+Write $\epsilon_e$, $\mathcal A_{e,\omega}$, and $Q_{e,\omega,N}$ for
+the preceding idempotent, corner algebra, and quotient formed using
+$D=D_e$ and the central character $\omega$. We have computed the quotient
+for each specified $N$. We now remove the search for a sufficiently large $N$. The bound
+will depend on $G$, the chosen subgroup $D_e$, and the fixed conventions
+for local group computations, but not on $\omega$ or on a supercuspidal
+representation. Its existence uses the classical finiteness of a Hecke
+algebra over its center. We give a finite certificate for this finiteness,
+so that an effective search for the certificate has a proved stopping
+condition. This is an application of the finiteness theorem, not a new
+proof of that theorem.
+
+For this purpose, work first without fixing a central character. Put
+$\mathcal H_D=\mathbf Q[D\backslash G/D]$, with Haar measure normalized
+by $\operatorname{vol}(D)=1$. Its double-coset basis has rational
+structure constants, and each product has finite support. The effective
+input consists of an enumeration of these double cosets, their finite
+convolution products, and the Cartan and finite quotient operations used
+above. These are requirements on an encoding of the input, rather than
+restrictions on residue characteristic, ramification, or the group.
+
+There is a finite, explicitly specified set $\mathcal S_D$ of algebra
+generators. Indeed, choose representatives of $K/(ZD)$, generators and
+their inverses of the finitely generated abelian group $Z/(Z\cap D)$,
+and the positive Cartan elements $b_j$. Take the corresponding compressed
+operators. An element of $K$ is a product of a central element, one of the
+chosen representatives, and an element of $D$. The Cartan decomposition
+and the positive multiplication identity
+\eqref{eq:nilpotent-hecke-monoid}, applied before specialization of the
+central character, then express every double-coset basis vector in the
+algebra generated by $\mathcal S_D$. The finite generation of
+$Z/(Z\cap D)$ follows from the compactness of the maximal bounded
+subgroup of the center and the finite rank of its valuation lattice.
+
+We use the following algebraic observation. All elements appearing in a
+certificate have finite support in the specified algebra basis.
+
+\begin{lemma}\label{lem:finite-central-certificate}
+Let $A_0$ be a unital rational algebra with an effective countable basis,
+effective finite products, and a specified finite generating set $S$.
+Suppose $A_0\otimes_{\mathbf Q}E$ is finite over its center for some
+field extension $E/\mathbf Q$. There is a terminating search for elements
+$z_1,\ldots,z_r,a_1,\ldots,a_m$ in $A_0$ and polynomials
+$f_{s,j,k}\in\mathbf Q[X_1,\ldots,X_r]$ such that
+\begin{equation}\label{eq:finite-central-certificate}
+ a_1=1,\qquad [z_i,s]=0,\qquad
+ sa_j=\sum_{k=1}^{m}f_{s,j,k}(z_1,\ldots,z_r)a_k
+ \quad(s\in S).
+\end{equation}
+For every such certificate, every finite-dimensional irreducible complex
+$A_0$-module $V$ satisfies $(\dim V)^2\le m$.
+\end{lemma}
+
+\begin{proof}
+Since $S$ generates $A_0$, its center is the kernel of the rational linear map
+\[
+ A_0\longrightarrow\bigoplus_{s\in S}A_0,
+ \qquad a\longmapsto([a,s])_{s\in S}.
+\]
+The set $S$ is finite, so flat base change gives
+$Z(A_0)\otimes E=Z(A_0\otimes E)$. Choose finitely many module generators
+of $A_0\otimes E$ over this center, and write each as a finite sum of
+rational algebra elements with coefficients in $E$. Collect these
+rational elements as $a_1,\ldots,a_m$, adding $a_1=1$ if necessary.
+The module $M_0=\sum_j Z(A_0)a_j$ satisfies $M_0\otimes E=A_0\otimes E$.
+Faithfulness of extension of scalars implies $M_0=A_0$.
+
+For each $s\in S$ and each $j$, express $sa_j$ in these module generators
+with coefficients in $Z(A_0)$. There are finitely many such coefficients;
+list them as $z_1,\ldots,z_r$. This supplies a rational certificate, with
+polynomials of degree at most one. It is unnecessary to compute the
+entire center first.
+
+Each displayed condition is a finite equality in the specified basis.
+Enumerate all finite lists of finite-support elements with rational
+coefficients and all finite lists of rational polynomials. Check the
+identities by exact convolution and rational arithmetic. An enumeration
+by finite descriptions ensures that every candidate is eventually
+examined. The existence just proved ensures that the search terminates.
+
+Conversely, a passing certificate suffices on its own. The equations
+$[z_i,s]=0$ make every $z_i$ central, since $S$ generates the algebra.
+The module
+\[
+ M=\sum_{k=1}^{m}\mathbf C[z_1,\ldots,z_r]a_k
+\]
+contains $1$ and is stable under left multiplication by every $s\in S$.
+Induction on word length gives $M=A_0\otimes\mathbf C$.
+On an irreducible finite-dimensional module $V$, each $z_i$ acts by a
+scalar. The image of the algebra in $\operatorname{End}_{\mathbf C}(V)$
+is therefore spanned by the images of $a_1,\ldots,a_m$. Burnside's theorem
+identifies this image with the full endomorphism algebra. Its dimension
+is $(\dim V)^2$, which proves the bound.
+\end{proof}
+
+For $A_0=\mathcal H_D$, apply
+\cite[Theorem~1.1]{DHKM} with $R=\mathbf Q_\ell$, where
+$\ell\ne p$. Its hypotheses hold for every compact open subgroup over
+every nonarchimedean local field. Thus $\mathcal H_D\otimes\mathbf Q_\ell$
+is finite over its center, as required by the lemma. The certificate
+itself is rational; no computation with arbitrary $\ell$-adic numbers
+is needed.
+
+Fix one deterministic enumeration of the certificates, and let $m_e$ be
+the number of module generators in its first passing certificate for
+$D_e$. Define
+\[
+ B_e=\max\{1,\lfloor\sqrt{m_e}\rfloor\}.
+\]
+This integer is computed before a central character is supplied.
+Irreducible smooth complex representations are admissible; see, for example,
+\cite[Proposition~4.10(iv)]{HV} for arbitrary local field characteristic.
+Admissibility and the usual fixed-vector simplicity imply that
+$\pi^{D_e}$ is a finite-dimensional simple module of the ordinary
+Hecke algebra whenever $\pi$ is irreducible and $\pi^{D_e}\ne0$.
+Lemma~\ref{lem:finite-central-certificate} therefore gives
+\begin{equation}\label{eq:certified-fixed-dimension-bound}
+ \dim\pi^{D_e}\le B_e.
+\end{equation}
+
+\begin{theorem}\label{thm:certified-cuspidal-stabilization}
+For every smooth central character $\omega$ trivial on $Z\cap D_e$,
+put $Q^{\mathrm{sc}}_{e,\omega}=Q_{e,\omega,B_e}$. Its simple modules
+give all irreducible supercuspidal representations with central character
+$\omega$ and nonzero $D_e$-fixed vectors. For every $N\ge B_e$, the
+canonical surjection
+\[
+ Q_{e,\omega,N}\longrightarrow Q^{\mathrm{sc}}_{e,\omega}
+\]
+is an isomorphism. Computing $B_e$, forming this finite algebra, and
+decomposing it is a terminating procedure under the effective input
+conventions already stated.
+\end{theorem}
+
+\begin{proof}
+If $\pi$ is supercuspidal with nonzero $D_e$-fixed vectors, every positive
+Cartan operator on $\pi^{D_e}$ is nilpotent. Its nilpotence index is at
+most $\dim\pi^{D_e}\le B_e$. Thus Theorem~\ref{thm:nilpotent-hecke-classification} puts every such $\pi$
+in the simple spectrum of $Q^{\mathrm{sc}}_{e,\omega}$.
+
+For $N\ge B_e$, take any simple $Q_{e,\omega,N}$-module $L$.
+The same theorem realizes it as $\pi^{D_e}$ for a supercuspidal $\pi$.
+The dimension bound implies $T_j^{B_e}L=0$ for every $j$, so $L$
+factors through $Q^{\mathrm{sc}}_{e,\omega}$. The kernel of the
+displayed surjection therefore annihilates every simple module of
+$Q_{e,\omega,N}$. That algebra is semisimple, hence the kernel is zero.
+The certificate search terminates by
+Lemma~\ref{lem:finite-central-certificate}; the boundary calculation
+terminates by Lemma~\ref{lem:nilpotent-hecke-boundary-closure}.
+Decomposition of the resulting finite semisimple algebra completes the
+procedure. The coefficient interface for the specified central character
+includes exact arithmetic, decidable equality, and algebraic extensions
+needed to split finitely many polynomials. This is separate from the
+certificate search, which uses rational arithmetic only.
+\end{proof}
+
+An equality between two successive quotients, by itself, is not a valid
+stopping certificate. For example, let $A=\mathbf C\oplus M_r(\mathbf C)$,
+let $T=(0,J_r)$ with $J_r$ a nilpotent Jordan block, and take $r\ge3$.
+Then $A/(AT^NA)=\mathbf C$ for $1\le N<r$, whereas $A/(AT^rA)=A$.
+This finite algebra example concerns the proposed stopping rule, not an
+assertion that these matrices occur in a reductive-group Hecke algebra.
+The bound $B_e$ avoids reliance on an unverified plateau.
+
+
+\section{Parameters and the group action}
+\label{sec:matrix-data}
+
+\begin{corollary}\label{cor:certified-complete-algebra-data}
+Fix the vertex, filtration, Cartan representatives, and certificate
+enumeration. All irreducible supercuspidal representations are parametrized
+by triples $(e,\omega,c)$, where $e\ge0$, $\omega$ is smooth and trivial
+on $Z\cap D_e$, and $c$ is a primitive central idempotent of the
+explicitly computed finite algebra $Q^{\mathrm{sc}}_{e,\omega}$.
+When $e>0$, require
+\[
+ u_{e-1}c=0,
+\]
+where $u_{e-1}$ is the averaging idempotent of $D_{e-1}$, viewed in the
+$D_e$-corner and then in $Q^{\mathrm{sc}}_{e,\omega}$.
+Two such triples give isomorphic representations if and only if they
+are equal.
+\end{corollary}
+
+\begin{proof}
+Each primitive central idempotent $c$ cuts out a simple matrix algebra
+$Q^{\mathrm{sc}}_{e,\omega}c$, with exactly one isomorphism class of
+simple left modules. Choose a primitive idempotent $p$ in that summand
+and put $L=Q^{\mathrm{sc}}_{e,\omega}p$. The corresponding representation
+is
+\[
+ \Pi(e,\omega,c)
+ =\mathcal H_\omega\epsilon_e
+      \otimes_{\epsilon_e\mathcal H_\omega\epsilon_e}L.
+\]
+Different choices of $p$ give isomorphic simple modules, and hence
+isomorphic representations. The preceding theorem and
+Theorem~\ref{thm:nilpotent-hecke-classification} prove irreducibility,
+supercuspidality, and exhaustion at the chosen level.
+
+The representation of the matrix summand on $L$ is faithful. Consequently
+$u_{e-1}c=0$ is equivalent to $u_{e-1}L=0$, and hence to the vanishing
+of $\Pi(e,\omega,c)^{D_{e-1}}$. Since the $D_e$ form a decreasing
+neighborhood basis, this makes $e$ exactly the least level with nonzero
+invariants. The central character and this least level are intrinsic.
+At equal $e$ and $\omega$, distinct primitive central idempotents give
+nonisomorphic simple modules, proving the asserted equivalence relation.
+Conversely, for any supercuspidal $\pi$, take its least level $e$, its
+central character $\omega$, and the central idempotent supporting the
+simple module $\pi^{D_e}$. These form the required triple.
+\end{proof}
+
+
+
+\subsection{Finite matrix data}
+
+Fix $(e,\omega)$, put $Q=Q^{\mathrm{sc}}_{e,\omega}$, and assume $Q\ne0$.
+Choose a basis $q_1=1,q_2,\ldots,q_n$ and its multiplication constants
+$c_{ij}^k$. When $e>0$, compute $u_{e-1}=\sum_i\eta_iq_i$ in this basis.
+Explicitly, before passing to $Q$, this element is
+\[
+ u_{e-1}=\frac{1}{[D_{e-1}:D_e]}
+             \sum_{h\in D_{e-1}/D_e}[h].
+\]
+If $\omega$ is nontrivial on $Z\cap D_{e-1}$, this average is zero in
+the central-character algebra. No extra restriction on that intersection
+is imposed on the data.
+
+\begin{theorem}\label{thm:matrix-parameters}
+The irreducible supercuspidal representations are parametrized by data
+\[
+ \mathcal D=(e,\omega,d;X_1,\ldots,X_n),
+\]
+where $1\le d\le B_e$, the matrices satisfy
+\eqref{eq:intro-matrix-data}, and, when $e>0$, they also satisfy
+$\sum_i\eta_iX_i=0$. The associated representation is
+\begin{equation}\label{eq:matrix-realization}
+ \Pi(\mathcal D)=\mathcal H_\omega\epsilon_e
+       \otimes_{\mathcal A_{e,\omega}}\C^d,
+ \qquad q_i v=X_i v.
+\end{equation}
+Two data are equivalent exactly when their $e$, $\omega$, and $d$ agree
+and an invertible matrix $S$ satisfies $SX_i=X_i'S$ for all $i$.
+For two valid data with the same $e$ and $\omega$, it is enough to find a
+nonzero simultaneous intertwiner; this is a finite system of linear equations.
+\end{theorem}
+
+\begin{proof}
+The multiplication equations and $X_1=I_d$ define a unital representation
+of $Q$ on $\C^d$. Its image is precisely the linear span of the $X_i$,
+because the $q_i$ form a basis of the algebra. Burnside's theorem says that
+this image is $M_d(\C)$ exactly when the module is simple. Thus the rank
+condition in \eqref{eq:intro-matrix-data} is exactly the required
+irreducibility condition.
+
+Theorem~\ref{thm:certified-cuspidal-stabilization} and
+Theorem~\ref{thm:nilpotent-hecke-classification} now prove that
+\eqref{eq:matrix-realization} is irreducible supercuspidal, and that every
+supercuspidal at this level is obtained. Its fixed-vector space is $\C^d$,
+so \eqref{eq:certified-fixed-dimension-bound} gives $d\le B_e$.
+The equation $\sum_i\eta_iX_i=0$ says that the preceding level has no fixed
+vectors. It therefore enforces the least level, as in
+Corollary~\ref{cor:certified-complete-algebra-data}. Isomorphisms of the
+simple modules are precisely simultaneous changes of basis. A nonzero
+intertwiner between simple modules has zero kernel and full image, hence
+is an isomorphism. This proves the last assertion and exhaustion without
+repetitions across levels.
+\end{proof}
+
+\subsection{The representation by generators and relations}
+
+We spell out the group representation in \eqref{eq:matrix-realization}.
+This also specifies an action for every element of $G$, rather than only
+for the finite Hecke generators. Put $D=D_e$ and $L=\C^d$. Choose elements
+$s_1,\ldots,s_r\in G$ such that
+$a_i=\epsilon_e\delta_{s_i}\epsilon_e$ generate $\mathcal A_{e,\omega}$;
+one may use the representatives in $K/(ZD)$ and the $b_j$. Let $A_i$ be
+the matrix of the image of $a_i$ on $L$, obtained from the matrices $X_k$
+and the computed coordinates of that image in $Q$.
+
+Start with symbols $[g,v]$, for $g\in G$ and $v\in L$, linear in $v$,
+and form their finite linear combinations. Impose
+\begin{equation}\label{eq:symbol-central}
+ [gd,v]=[g,v],\qquad [gz,v]=\omega(z)[g,v]
+ \quad(d\in D,\ z\in Z).
+\end{equation}
+This space is $\cInd_{ZD}^G(\omega\otimes L)$, where
+$zd$ acts on $L$ as the scalar $\omega(z)$. Choose representatives
+$d_{i,1},\ldots,d_{i,m_i}$ of
+$D/(D\cap s_iDs_i^{-1})$, with
+$m_i=[D:D\cap s_iDs_i^{-1}]$. Impose in addition
+\begin{equation}\label{eq:symbol-hecke}
+ \frac1{m_i}\sum_{j=1}^{m_i}[g d_{i,j}s_i,v]=[g,A_i v]
+ \quad(g\in G,\ v\in L,\ 1\le i\le r).
+\end{equation}
+The group action on the resulting quotient is
+\begin{equation}\label{eq:symbol-action}
+ h[g,v]=[hg,v]\quad(h\in G).
+\end{equation}
+All vectors are finite sums; there is no completion.
+
+\begin{proposition}\label{prop:symbol-realization}
+The quotient defined by \eqref{eq:symbol-central} and
+\eqref{eq:symbol-hecke}, with action \eqref{eq:symbol-action}, is canonically
+isomorphic to \eqref{eq:matrix-realization}. For every valid datum it is
+nonzero, irreducible, and supercuspidal. The map $v\mapsto[1,v]$ identifies
+$L$ with its $D$-fixed space.
+\end{proposition}
+
+\begin{proof}
+Write $u_g=\delta_g*\epsilon_e\in\mathcal H_\omega\epsilon_e$. These
+elements satisfy $u_{gd}=u_g$ and $u_{gz}=\omega(z)u_g$. They form the
+usual basis with central-character relations for compact induction.
+Normalized averaging gives
+\[
+ u_g*a_i=\frac1{m_i}\sum_{j=1}^{m_i}u_{g d_{i,j}s_i}.
+\]
+Thus \eqref{eq:symbol-hecke} imposes exactly the balancing relation
+$(u*a_i)\otimes v=u\otimes A_i v$. Relations for the finite generating
+set imply balancing for a word in the generators by induction on its
+length, and then for every element of $\mathcal A_{e,\omega}$ by linearity.
+The quotient is consequently the tensor product in
+\eqref{eq:matrix-realization}.
+
+Averaging this tensor product by $\epsilon_e$ gives
+$\mathcal A_{e,\omega}\otimes_{\mathcal A_{e,\omega}}L=L$, with the stated
+map. Smoothness also follows directly: a finite sum of symbols is fixed
+by an intersection of finitely many conjugates of $D$. The remaining
+claims follow from Theorem~\ref{thm:nilpotent-hecke-classification}.
+\end{proof}
+
+\section{The computation and its input}
+\label{sec:effective-input}
+
+The algebraic assertions above concern every connected reductive $G$ over
+a nonarchimedean local field and every smooth complex central character.
+For a literal algorithm, we specify the following effective input.
+\begin{enumerate}
+\item The chosen subgroups, Cartan lattice and Hilbert generators are
+available. Ordinary $D$ double cosets can be enumerated and their finite
+convolution products can be computed exactly. Finite double-coset lists
+for the compact sets occurring in the boundary calculation are available,
+with the corresponding central factors when working modulo $Z$.
+\item The prescribed central character can be evaluated on the central
+factors in these operations. The coefficient field containing these
+values has exact arithmetic and decidable equality, with effective
+algebraic extensions and factorization sufficient to split the finite
+algebras that occur.
+\end{enumerate}
+The character is part of the input. In particular, arbitrary unspecified
+complex numbers are not being treated as computable numbers, and the
+procedure does not enumerate all complex central characters.
+
+For a specified $(e,\omega)$, the procedure is as follows.
+\begin{enumerate}
+\item Search the rational certificates of
+Lemma~\ref{lem:finite-central-certificate} for the ordinary Hecke algebra
+at $D_e$. The first passing certificate gives $m_e$ and $B_e$.
+\item Put $N=B_e$. List the retained double cosets in
+\eqref{eq:nilpotent-hecke-box} and compute the boundary relations and the
+subspace $R_N$ of Lemma~\ref{lem:nilpotent-hecke-boundary-closure}.
+\item Form the multiplication table of $Q=V_N/R_N$. If $Q=0$, return the
+empty list. Otherwise decompose the finite semisimple algebra, choose a
+simple module for each matrix factor, and compute the matrices of its basis.
+\item For parameters of least level, when $e>0$, discard the modules on
+which $u_{e-1}$ acts nontrivially. Retain one module per matrix factor and use
+\eqref{eq:symbol-central}--\eqref{eq:symbol-action} for the associated group
+representation.
+\end{enumerate}
+The certificate search terminates by finiteness over the center. The
+boundary closure makes at most $\dim V_N$ strict increases, and the
+remaining operations are finite algebra calculations. This proves the
+algorithmic assertion of Theorem~\ref{thm:main}; the reconstruction and
+exhaustion assertions follow from
+Theorem~\ref{thm:certified-cuspidal-stabilization} and
+Theorem~\ref{thm:matrix-parameters}. No complexity bound is asserted for
+the exhaustive certificate search.
+
+\section{Compact induction and examples}
+\label{sec:exponent-one}
+
+\begin{proposition}\label{prop:nilpotent-hecke-exponent-one}
+Every simple $Q_1$-module $W$ is an irreducible representation of $K$,
+trivial on $D$ and with central character $\omega$, and its associated
+supercuspidal is
+\[
+ \mathcal V(W)\simeq\operatorname{c-Ind}_K^G W.
+\]
+Consequently, the supercuspidals with nonzero $D$-fixed vectors on which
+every $T_j$ acts by zero are classified by these irreducible compact
+inducing data. This assertion holds for every connected reductive group
+and every residue characteristic.
+\end{proposition}
+
+\begin{proof}
+For $N=1$, the support set in \eqref{eq:nilpotent-hecke-box} is $K$.
+Thus $Q_1$ is a quotient of the finite twisted group algebra of $K/(ZD)$
+with central character $\omega$. Its simple module $W$ is irreducible
+as a $K$-representation. By
+Theorem~\ref{thm:nilpotent-hecke-classification}, the associated
+$\pi=\mathcal V(W)$ is irreducible supercuspidal and $\pi^D=W$.
+Moreover,
+\[
+ e_D\pi(g)|_W=0\qquad(g\notin K),
+\]
+because every omitted double-coset basis vector is zero in $Q_1$.
+
+Twist by a positive unramified character to make the central character
+unitary. This character is trivial on the compact group $D$, so the
+vanishing assertion and the identification of $D$-fixed vectors are
+unchanged. Equip $\pi$ with an invariant positive definite Hermitian
+form. The operator $e_D$ is the orthogonal projection onto $W$.
+If $gK\ne hK$, then for $v,w\in W$ one has
+\[
+ \langle\pi(g)v,\pi(h)w\rangle
+ =\langle v,e_D\pi(g^{-1}h)w\rangle=0.
+\]
+Hence the spaces $\pi(g)W$, indexed by $G/K$, form an algebraic direct
+sum. They span $\pi$ because $W$ generates it. The natural map from
+$\operatorname{c-Ind}_K^G W$ to $\pi$ is therefore both injective and
+surjective. Twisting back proves the assertion for the original central
+character.
+\end{proof}
+
+
+
+\subsection{Groups compact modulo their center}
+
+If $\mathbf G$ has relative semisimple rank zero, its reduced building is
+a point, $K=G$, and there are no positive Cartan operators. The algebra
+$Q_N=\mathcal A$ is the finite twisted group algebra of $G/(ZD)$ determined
+by $\omega$. Its simple modules are already representations of $G$,
+trivial on $D$. There are no proper parabolic subgroups, so they are all
+supercuspidal. In particular, if $\mathbf G$ is a torus, then $Z=G$ and
+$Q_N=\C$ for each admissible $\omega$. The sole simple module reconstructs
+the one-dimensional representation $\omega$; the least-level condition
+records the first $D_e$ contained in its kernel.
+
+\subsection{A concrete sector in residue characteristic two}
+
+Let $F$ have residue field $\mathbf F_2$, let $G=\operatorname{PGL}_2(F)$,
+and take $K=\operatorname{PGL}_2(\mathcal O_F)$ and
+$D=\ker(K\to\operatorname{PGL}_2(\mathbf F_2))$. Put
+$b=\operatorname{diag}(\varpi,1)$, viewed in $G$. Then $K/D\simeq S_3$,
+and there is one positive Cartan generator $T=[b]$.
+
+\begin{proposition}\label{prop:dyadic-example}
+For these choices, $Q_1=\mathcal A/(\mathcal A T\mathcal A)\simeq\C$.
+Its simple module is the sign character of $S_3$, inflated to $K$, and
+its associated representation is $\cInd_K^G\operatorname{sgn}$.
+Thus the matrix data in this sector are scalar signs on $K/D$ and the
+scalar zero on $T$.
+\end{proposition}
+
+\begin{proof}
+The algebra $Q_1$ is a semisimple quotient of $\C[S_3]$. If $W$ is one
+of its simple modules, Proposition~\ref{prop:nilpotent-hecke-exponent-one}
+says that $\cInd_K^G W$ is supercuspidal. Let $N$ be a maximal unipotent
+subgroup with integral subgroup $U=K\cap N$. Its orbit through the
+identity coset in $G/K$ contributes the summand $\cInd_U^N W$ to the
+restriction of this compact induction to $N$. Taking $N$-coinvariants
+of that summand gives $W_U$. Since the whole Jacquet module is zero,
+$W_U=0$. The image of $U$ in $S_3$ is generated by a transposition.
+Among the trivial, sign, and two-dimensional standard representations
+of $S_3$, only sign has zero invariants under that subgroup. In
+characteristic zero invariants and coinvariants for a finite group have
+the same dimension. Thus sign is the only possible simple module of $Q_1$.
+
+It remains to show that it occurs. Write $a_n=\operatorname{diag}(\varpi^n,1)$
+for $n\ge1$, and let $U^+$ and $U^-$ be the upper and lower integral
+unipotent subgroups. Direct multiplication gives
+\[
+ a_n^{-1}U^-a_n\subseteq D,\qquad a_nU^+a_n^{-1}\subseteq D.
+\]
+The sign character is nontrivial on both $U^+$ and $U^-$. The first
+inclusion shows that no $a_n$ intertwines it: on $U^-\subseteq
+K\cap a_nKa_n^{-1}$, one of the two characters is nontrivial and the
+other is trivial. Cartan decomposition gives the same conclusion for
+every element outside $K$.
+
+For completeness, the sign isotypic space under $K$ in
+$\Pi=\cInd_K^G\operatorname{sgn}$ is therefore exactly its canonical
+one-dimensional space supported on $K$, by the compact Mackey
+decomposition. Any nonzero subrepresentation contains a vector whose
+translate has nonzero value on that coset. Projecting to the sign
+isotypic space gives a nonzero vector in the canonical copy, which
+generates $\Pi$. Hence $\Pi$ is irreducible. The invariant unitary form
+on compact induction has compactly supported matrix coefficients for
+finite-support vectors; admissibility and irreducibility then imply
+supercuspidality.
+
+The second inclusion kills every $D$-fixed Mackey term away from $K$:
+$U^+\subseteq K\cap a_n^{-1}Da_n$, whereas sign has no $U^+$-invariants.
+Normality of $D$ in $K$ handles the compact factors. Consequently
+$\Pi^D=\operatorname{sgn}$. Averaging a translate supported outside $K$
+cannot create support on $K$; since every $D$-fixed vector is supported
+on $K$, this average is zero. Thus the compressed action outside $K$
+vanishes, and $\Pi^D$ is a $Q_1$-module. A finite-dimensional semisimple
+complex algebra with
+exactly one simple module, of dimension one, is $\C$, proving the claim.
+\end{proof}
+
+This example computes the exponent-one sector. For a general group or
+level, the stopping bound $B_e$ can be larger than one. The full finite
+algebra $Q^{\mathrm{sc}}_{e,\omega}$ then still parametrizes the
+supercuspidals, but the preceding compact-induction argument does not
+supply an inducing subgroup for every simple module.
+
+\begin{thebibliography}{99}
+
+\bibitem{Casselman}
+W.~Casselman, \emph{Introduction to the theory of admissible representations
+of $p$-adic reductive groups}, notes, 1 May 1995.
+\url{https://www.math.utah.edu/~ptrapa/math-library/casselman/casselman-p-adic-book.pdf}.
+
+\bibitem{DHKM}
+J.-F.~Dat, D.~Helm, R.~Kurinczuk, and G.~Moss,
+\emph{Finiteness for Hecke algebras of $p$-adic groups},
+arXiv:2203.04929v2 (2022).
+\url{https://arxiv.org/abs/2203.04929v2}.
+Theorem numbers refer to this version.
+
+\bibitem{HV}
+G.~Henniart and M.-F.~Vign\'eras,
+\emph{Representations of a reductive $p$-adic group in characteristic
+distinct from $p$}, author's version, 30 October 2021.
+\url{https://perso.imj-prg.fr/mariefrance-vigneras/wp-content/uploads/sites/74/2022/11/21-10-30.pdf}.
+
+\bibitem{SS}
+P.~Schneider and U.~Stuhler, \emph{Representation theory and sheaves on the
+Bruhat--Tits building}, Publ. Math. IH\'ES \textbf{85} (1997), 97--191.
+\url{https://www.numdam.org/item/PMIHES_1997__85__97_0/}.
+
+\bibitem{Solleveld}
+M.~Solleveld, \emph{Pseudo-reductive and quasi-reductive groups over
+non-archimedean local fields}, author's version, 13 June 2018.
+\url{https://www.math.ru.nl/~solleveld/quasiReductive.pdf}.
+Theorem numbers refer to this version.
+
+\end{thebibliography}
+
+\end{document}
+
