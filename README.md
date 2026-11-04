@@ -65,3 +65,8 @@ contribution can still be corrected if a gap is found.
 
 No general solution or comprehensive literature survey is asserted here. Please cite the original
 sources for mathematical results and use issues or pull requests to report missing references.
+
+
+## Research drafts
+
+Read the [research drafts and source files](research/README.md) for two approaches to compact induction and finite algebra data. The drafts are shared for further mathematical review.
